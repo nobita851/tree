@@ -1,64 +1,83 @@
 #include<stdio.h>
-#include<conio.h>
+#include<stdlib.h>
 struct node
 {
-  int data;
-  struct node *left;
-  struct node *right;
-} node;
+	int data;
+	struct node *left;
+	struct node *right;
+}*root;
+void create(struct node *temp)
+{
+    if(temp->data!=-1)
+    {
+        struct node *lt=(struct node *)malloc(sizeof(struct node));
+		if (lt)
+		{
+            temp->left=lt;
+            printf("Enter data to  left of \"%d\" :",temp->data);
+            scanf("%d",&temp->left->data);
+            create(temp->left);
+        }
+        else
+            printf("Something went wrong while creating left node");
 
-node *create()
-{
-    node *p;
-    int x;
-    printf("Enter data(-1 for no node):");
-    scanf("%d",&x);
-    if(x==-1)
-	return NULL;
-    p=(node*)malloc(sizeof(node));
-    p->data=x;
-    printf("Enter left child of %d:\n",x);
-    p->left=create();
-    printf("Enter right child of %d:\n",x);
-    p->right=create();
-    return p;
+        struct node *rt=(struct node *)malloc(sizeof(struct node));
+		if (rt)
+		{
+            temp->right=rt;
+            printf("Enter data to right of \"%d\" :",temp->data);
+            scanf("%d",&temp->right->data);
+            create(temp->right);
+        }
+        else
+            printf("Something went wrong while creating right node");
+    }
 }
-void pre(node *temp)
+void pre(struct node *temp)
 {
-  if(temp!=NULL)
-  {
-    printf("  %d",temp->data);
-    pre(temp->left);
-    pre(temp->right);
-  }
+    if(temp->data!=-1)
+    {
+        printf("  %d",temp->data);
+        pre(temp->left);
+        pre(temp->right);
+    }
 }
-void in(node *temp)
+void in(struct node *temp)
 {
-  if(temp!=NULL)
-  {
-    in(t->left);
-    printf("  %d",temp->data);
-    in(temp->right);
-  }
+    if(temp->data!=-1)
+    {
+        in(temp->left);
+        printf("  %d",temp->data);
+        in(temp->right);
+    }
 }
-void post(node *temp)
+void post(struct node *temp)
 {
-  if(temp!=NULL)
-  {
-    post(temp->left);
-    post(temp->right);
-    printf("  %d",temp->data);
-  }
+    if(temp->data!=-1)
+    {
+        post(temp->left);
+        post(temp->right);
+        printf("  %d",temp->data);
+    }
 }
 void main()
 {
-  node *root;
-  root=create();
-  printf("\nThe preorder traversal of tree is: ");
-  pre(root);
-  printf("\nThe inorder traversal of tree is: ");
-  in(root);
-  printf("\nThe postorder traversal of tree is: ");
-  post(root);
-  
+    root=(struct node *)malloc(sizeof(struct node));
+	if(root==NULL)
+	{
+		printf("Memory not allocated");
+	}
+	else
+	{
+        printf("\n-1 equals null");
+        printf("\nEnter rooot data:");
+        scanf("%d",&root->data);
+        create(root);
+        printf("\nThe preorder traversal of tree is:  ");
+        pre(root);
+        printf("\nThe inorder traversal of tree is:   ");
+        in(root);
+        printf("\nThe postorder traversal of tree is: ");
+        post(root);
+    }  
 }
